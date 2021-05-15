@@ -776,3 +776,6 @@
 	target.layer = old_layer
 	target.plane = old_plane
 	current_button.appearance_cache = target.appearance
+
+/datum/action/item_action/adjust_gloves
+	name = "Toggle insulation"

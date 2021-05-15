@@ -118,7 +118,7 @@
 	name = "engineering envirogloves"
 	icon_state = "engieplasma"
 	inhand_icon_state = "engieplasma"
-	siemens_coefficient = 0
+	actions_types = list(/datum/action/item_action/adjust_gloves)
 
 /obj/item/clothing/gloves/color/plasmaman/atmos
 	name = "atmos envirogloves"

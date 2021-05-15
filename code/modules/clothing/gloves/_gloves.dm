@@ -53,3 +53,18 @@
 	new cut_type(drop_location())
 	qdel(src)
 	return TRUE
+
+/obj/item/clothing/gloves/proc/adjust_gloves(mob/living/user)
+	if(user?.incapacitated())
+		return
+	adjusted = !adjusted
+	if(!adjusted)
+		src.icon_state = initial(icon_state)
+		to_chat(user, "<span class='notice'>The insulated padding retracts.</span>")
+		siemens_coefficient = 1
+	else
+		icon_state += "_up"
+		to_chat(user, "<span class='notice'>You activate the insulated padding.</span>")
+		siemens_coefficient = 0.5
+	if(user)
+		user.update_action_buttons_icon() //when glove is adjusted out, we update all buttons icon so the user's potential internal tank correctly shows as off.
