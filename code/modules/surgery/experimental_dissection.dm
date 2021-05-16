@@ -57,7 +57,7 @@
 
 	/datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 		user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
-			if(findings)
+		if(findings)
 			var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, findings)
 			if(!user.put_in_hands(results) && istype(user.get_inactive_held_item(), /obj/item/dissection_log))
 				var/obj/item/dissection_log/hand_results = user.get_inactive_held_item()
