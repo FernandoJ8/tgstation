@@ -40,20 +40,21 @@
 	user.visible_message("<span class='notice'>[user] starts dissecting [target].</span>", "<span class='notice'>You start dissecting [target].</span>")
 
 /datum/surgery_step/dissection/proc/check_value(mob/living/target, datum/surgery/advanced/experimental_dissection/ED)
-		//determine bonus applied
-		if(ismonkey(target))
-			surgery.findings = DISS_MONKEY
-		else if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			if(H?.dna?.species)
-				if(islizard(H))
-					surgery.findings = DISS_LIZARD
-				else if(isplasmaman(H) || isethereal(H))
-					surgery.findings = DISS_SPECIAL
-				else if(ismoth(H) || isflyperson(H))
-					surgery.findings = DISS_INSECT
-		else
-			surgery.findings = DISS_HUMAN
+
+	//determine bonus applied
+	if(ismonkey(target))
+		surgery.findings = DISS_MONKEY
+	else if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		if(H?.dna?.species)
+			if(islizard(H))
+				surgery.findings = DISS_LIZARD
+			else if(isplasmaman(H) || isethereal(H))
+				surgery.findings = DISS_SPECIAL
+			else if(ismoth(H) || isflyperson(H))
+				surgery.findings = DISS_INSECT
+	else
+		surgery.findings = DISS_HUMAN
 
 /datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	if (ISTYPE(surgery, /datum/surgery/advanced/dissection/))
