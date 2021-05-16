@@ -21,7 +21,6 @@
 	var/dissection_type = /obj/item/dissection_log
 	var/findings = 1
 
-if(findings)
 	/datum/surgery/advanced/experimental_dissection/can_start(mob/user, mob/living/target)
 		. = ..()
 		if(HAS_TRAIT_FROM(target, TRAIT_DISSECTED,"[name]"))
@@ -58,15 +57,16 @@ if(findings)
 
 	/datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 		user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
-		var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, findings)
-		if(!user.put_in_hands(results) && istype(user.get_inactive_held_item(), /obj/item/dissection_log))
-			var/obj/item/dissection_log/hand_results = user.get_inactive_held_item()
-			hand_results.merge(results)
-		var/obj/item/bodypart/L = target.get_bodypart(BODY_ZONE_CHEST)
-		target.apply_damage(80, BRUTE, L)
-		ADD_TRAIT(target, TRAIT_DISSECTED, "[surgery.name]")
-		repeatable = FALSE
-		return ..()
+			if(findings)
+			var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, findings)
+			if(!user.put_in_hands(results) && istype(user.get_inactive_held_item(), /obj/item/dissection_log))
+				var/obj/item/dissection_log/hand_results = user.get_inactive_held_item()
+				hand_results.merge(results)
+			var/obj/item/bodypart/L = target.get_bodypart(BODY_ZONE_CHEST)
+			target.apply_damage(80, BRUTE, L)
+			ADD_TRAIT(target, TRAIT_DISSECTED, "[surgery.name]")
+			repeatable = FALSE
+			return ..()
 
 	/datum/surgery_step/dissection/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 		user.visible_message("<span class='notice'>[user] dissects [target]!</span>", "<span class='notice'>You attempt to dissect [target], but fail to make any breakthroughs.</span>")
