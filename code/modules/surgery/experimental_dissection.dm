@@ -42,6 +42,7 @@
 /datum/surgery_step/dissection/proc/check_value(mob/living/target, datum/surgery/advanced/experimental_dissection/ED)
 
 	//determine bonus applied
+	if (ISTYPE(surgery, /datum/surgery/advanced/dissection/))
 	if(ismonkey(target))
 		surgery.findings = DISS_MONKEY
 	else if(ishuman(target))
