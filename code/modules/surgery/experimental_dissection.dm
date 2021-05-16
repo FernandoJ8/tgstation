@@ -19,7 +19,7 @@
 	replaced_by = /datum/surgery/advanced/experimental_dissection/adv
 	requires_tech = FALSE
 	var/dissection_type = /obj/item/dissection_log
-	var/findings = FALSE
+	var/findings = 1
 
 /datum/surgery/advanced/experimental_dissection/can_start(mob/user, mob/living/target)
 	. = ..()
