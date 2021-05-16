@@ -41,7 +41,6 @@
 	/datum/surgery_step/dissection/proc/check_value(mob/living/target, datum/surgery/advanced/experimental_dissection/ED)
 
 		//determine bonus applied
-		if (ISTYPE(surgery, /datum/surgery/advanced/experimental_dissection/))
 			if(ismonkey(target))
 				surgery.findings = DISS_MONKEY
 			else if(ishuman(target))
@@ -57,8 +56,8 @@
 				surgery.findings = DISS_HUMAN
 
 	/datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
-		user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
 		if (ISTYPE(surgery, /datum/surgery/advanced/dissection/))
+			ser.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
 			var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, surgery.findings)
 			if(!user.put_in_hands(results) && istype(user.get_inactive_held_item(), /obj/item/dissection_log))
 				var/obj/item/dissection_log/hand_results = user.get_inactive_held_item()
