@@ -39,26 +39,25 @@
 	user.visible_message("<span class='notice'>[user] starts dissecting [target].</span>", "<span class='notice'>You start dissecting [target].</span>")
 
 /datum/surgery_step/dissection/proc/check_value(mob/living/target, datum/surgery/advanced/experimental_dissection/ED)
-	var/multi_surgery_adjust = 0
 
 	//determine bonus applied
 	if(ismonkey(target))
-		findings = DISS_MONKEY
+		surgery.findings = DISS_MONKEY
 	else if(ishuman(target))
 		var/mob/living/carbon/human/H = target
 		if(H?.dna?.species)
 			if(islizard(H))
-				findings = DISS_LIZARD
+				surgery.findings = DISS_LIZARD
 			else if(isplasmaman(H) || isethereal(H))
-				findings = DISS_SPECIAL
+				surgery.findings = DISS_SPECIAL
 			else if(ismoth(H) || isflyperson(H))
-				findings = DISS_INSECT
+				surgery.findings = DISS_INSECT
 	else
-		findings = DISS_HUMAN
+		surgery.findings = DISS_HUMAN
 
 /datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
-	var/obj/item/dissection_log/results =new dissection_type(user.loc, findings)
+	var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, findings)
 	if(!user.put_in_hands(results) && istype(user.get_inactive_held_item(), /obj/item/dissection_log))
 		var/obj/item/dissection_log/hand_results = user.get_inactive_held_item()
 		hand_results.merge(results)
