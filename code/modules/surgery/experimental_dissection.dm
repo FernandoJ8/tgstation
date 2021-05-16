@@ -56,7 +56,7 @@
 	else
 		surgery.findings = DISS_HUMAN
 
-/datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
+/datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/advanced/experimental_dissection/surgery, default_display_results = FALSE)
 	if (istype(surgery, /datum/surgery/advanced/experimental_dissection/))
 		user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
 		var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, surgery.findings)
@@ -79,16 +79,16 @@
 	name = "Thorough Dissection"
 	replaced_by = /datum/surgery/advanced/experimental_dissection/exp
 	requires_tech = TRUE
-	var/dissection_type = /obj/item/dissection_log/adv
+		dissection_type = /obj/item/dissection_log/adv
 
 /datum/surgery/advanced/experimental_dissection/exp
 	name = "Experimental Dissection"
 	replaced_by = /datum/surgery/advanced/experimental_dissection/alien
 	requires_tech = TRUE
-	var/dissection_type = /obj/item/dissection_log/exp
+	dissection_type = /obj/item/dissection_log/exp
 
 /datum/surgery/advanced/experimental_dissection/alien
 	name = "Extraterrestrial Dissection"
 	requires_tech = TRUE
 	replaced_by = null
-	var/dissection_type = /obj/item/dissection_log/alien
+	dissection_type = /obj/item/dissection_log/alien
