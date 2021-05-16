@@ -59,7 +59,7 @@
 /datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/advanced/experimental_dissection/surgery, default_display_results = FALSE)
 	if (istype(surgery, /datum/surgery/advanced/experimental_dissection/))
 		user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")
-		var/obj/item/dissection_log/results =new surgery.dissection_type(user.loc, surgery.findings)
+		new surgery.dissection_type(user.loc, surgery.findings)
 		var/obj/item/bodypart/L = target.get_bodypart(BODY_ZONE_CHEST)
 		target.apply_damage(80, BRUTE, L)
 		ADD_TRAIT(target, TRAIT_DISSECTED, "[surgery.name]")
@@ -76,7 +76,7 @@
 	name = "Thorough Dissection"
 	replaced_by = /datum/surgery/advanced/experimental_dissection/exp
 	requires_tech = TRUE
-		dissection_type = /obj/item/dissection_log/adv
+	dissection_type = /obj/item/dissection_log/adv
 
 /datum/surgery/advanced/experimental_dissection/exp
 	name = "Experimental Dissection"
