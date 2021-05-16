@@ -1,9 +1,9 @@
 
-#define DISS_MONKEY "diss_monkey"
-#define DISS_HUMAN "diss_human"
-#define DISS_LIZARD "diss_lizard"
-#define DISS_INSECT "diss_insect"
-#define DISS_SPECIAL "diss_special"
+#define DISS_MONKEY 1
+#define DISS_HUMAN 2
+#define DISS_LIZARD 3
+#define DISS_INSECT 4
+#define DISS_SPECIAL 5
 
 /datum/surgery/advanced/experimental_dissection
 	name = "Dissection"
@@ -19,6 +19,7 @@
 	replaced_by = /datum/surgery/advanced/experimental_dissection/adv
 	requires_tech = FALSE
 	var/dissection_type = /obj/item/dissection_log
+	var/findings = FALSE
 
 /datum/surgery/advanced/experimental_dissection/can_start(mob/user, mob/living/target)
 	. = ..()
@@ -38,7 +39,6 @@
 	user.visible_message("<span class='notice'>[user] starts dissecting [target].</span>", "<span class='notice'>You start dissecting [target].</span>")
 
 /datum/surgery_step/dissection/proc/check_value(mob/living/target, datum/surgery/advanced/experimental_dissection/ED)
-	var/findings = FALSE
 	var/multi_surgery_adjust = 0
 
 	//determine bonus applied
