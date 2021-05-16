@@ -2,7 +2,7 @@
 /obj/item/dissection_log
 	name = "dissection log"
 	desc = "A log that describes the proceedings and findings of a dissection."
-	icon = "bureaucracy.dmi"
+	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "dissection_log"
 	var/dissected_species = FALSE
 
