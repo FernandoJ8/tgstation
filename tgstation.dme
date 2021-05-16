@@ -3141,6 +3141,7 @@
 #include "code\modules\research\bepis.dm"
 #include "code\modules\research\designs.dm"
 #include "code\modules\research\destructive_analyzer.dm"
+#include "code\modules\research\dissection_logs.dm"
 #include "code\modules\research\experimentor.dm"
 #include "code\modules\research\rdconsole.dm"
 #include "code\modules\research\rdmachines.dm"

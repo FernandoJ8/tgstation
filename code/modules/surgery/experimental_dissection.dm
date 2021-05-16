@@ -1,4 +1,10 @@
 
+#define DISS_MONKEY "diss_monkey"
+#define DISS_HUMAN "diss_human"
+#define DISS_LIZARD "diss_lizard"
+#define DISS_INSECT "diss_insect"
+#define DISS_SPECIAL "diss_special"
+
 /datum/surgery/advanced/experimental_dissection
 	name = "Dissection"
 	desc = "A surgical procedure which analyzes the biology of a corpse and logs the results for scientific study."
@@ -37,18 +43,18 @@
 
 	//determine bonus applied
 	if(ismonkey(target))
-		findings = DISSECTION_MONKEY
+		findings = DISS_MONKEY
 	else if(ishuman(target))
 		var/mob/living/carbon/human/H = target
 		if(H?.dna?.species)
 			if(islizard(H))
-				findings = DISSECTION_LIZARD
+				findings = DISS_LIZARD
 			else if(isplasmaman(H) || isethereal(H))
-				findings = DISSECTION_SPECIAL
+				findings = DISS_SPECIAL
 			else if(ismoth(H) || isflyperson(H))
-				findings = DISSECTION_INSECT
+				findings = DISS_INSECT
 	else
-		findings = DISSECTION_HUMAN
+		findings = DISS_HUMAN
 
 /datum/surgery_step/dissection/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	user.visible_message("<span class='notice'>[user] dissects [target] and logs a medical report", "<span class='notice'>You dissect [target] and log your findings.</span>")

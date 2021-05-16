@@ -210,6 +210,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PARALYSIS_R_ARM "para-r-arm"
 #define TRAIT_PARALYSIS_L_LEG "para-l-leg"
 #define TRAIT_PARALYSIS_R_LEG "para-r-leg"
+#define TRAIT_DISSECTED "dissected"
 #define TRAIT_CANNOT_OPEN_PRESENTS "cannot-open-presents"
 #define TRAIT_PRESENT_VISION "present-vision"
 #define TRAIT_DISK_VERIFIER "disk-verifier"

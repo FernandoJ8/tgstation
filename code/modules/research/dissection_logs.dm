@@ -6,7 +6,7 @@
 	icon_state = "dissection_log"
 	var/dissected_species = FALSE
 
-/obj/item/dissection_log/Initialize(mapload,dissection_type ,dissected_species)
+/obj/item/dissection_log/Initialize(mapload,obj_flags ,dissected_species)
 	. = ..()
 
 /obj/item/dissection_log/adv
