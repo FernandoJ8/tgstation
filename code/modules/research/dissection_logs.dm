@@ -2,8 +2,8 @@
 /obj/item/dissection_log
 	name = "dissection log"
 	desc = "A log that describes the proceedings and findings of a dissection."
-	if(item_flags && FLAG_NAME == DISS_MONKEY)
-		desc += " It has been performed on a monkey"
+	if(item_flags && FLAG_NAME == "1")
+		desc == "A log that describes the proceedings and findings of a dissection. It has been performed on a monkey"
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "dissection_log"
 	var/dissected_species = FALSE
