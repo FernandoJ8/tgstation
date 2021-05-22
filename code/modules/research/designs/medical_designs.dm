@@ -693,7 +693,7 @@
 
 /datum/design/surgery/experimental_dissection
 	name = "Advanced Dissection"
-	desc = "A surgical procedure which analyzes the biology of a corpse, and automatically adds new findings to the research database."
+	desc = "A surgical procedure which analyzes the biology of a corpse, and produces a log for R&D."
 	id = "surgery_adv_dissection"
 	surgery = /datum/surgery/advanced/experimental_dissection/adv
 	research_icon_state = "surgery_chest"

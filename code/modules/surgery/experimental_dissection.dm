@@ -68,6 +68,7 @@
 
 /datum/surgery_step/dissection/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	user.visible_message("<span class='notice'>[user] dissects [target]!</span>", "<span class='notice'>You attempt to dissect [target], but fail to make any breakthroughs.</span>")
+	to_chat(user, "It looks like there's still something to uncover from dissecting [target].")
 	var/obj/item/bodypart/L = target.get_bodypart(BODY_ZONE_CHEST)
 	target.apply_damage(80, BRUTE, L)
 	return TRUE
