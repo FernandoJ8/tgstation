@@ -1,8 +1,8 @@
 
 /obj/item/dissection_log
 	name = "dissection log"
-	desc = "A log that describes the proceedings and findings of a dissection."
-	if(item_flags & FLAG_NAME == "1")
+	desc = "A log that describes the proceedings and findings of a dissection. It has been performed on nothing."
+	if(item_flags.Find(DISS_MONKEY))
 		desc = "A log that describes the proceedings and findings of a dissection. It has been performed on a monkey"
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "dissection_log"
