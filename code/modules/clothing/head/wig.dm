@@ -9,8 +9,6 @@
 	color = "#000"
 	var/hairstyle = "Very Long Hair"
 	var/adjustablecolor = TRUE //can color be changed manually?
-	var/grad_style = null
-	var/grad_color = null
 
 /obj/item/clothing/head/wig/Initialize(mapload)
 	. = ..()
@@ -53,12 +51,6 @@
 /obj/item/clothing/head/wig/attack_self(mob/user)
 	var/new_style = input(user, "Select a hairstyle", "Wig Styling")  as null|anything in (GLOB.hairstyles_list - "Bald")
 	var/newcolor = adjustablecolor ? input(usr,"","Choose Color",color) as color|null : null
-	var/new_grad_style = input(usr, "Choose a color pattern:", "Character Preference")  as null|anything in GLOB.hair_gradients_list
-	if(!new_grad_style)
-		return
-	var/new_grad_color = input(usr, "Choose a secondary hair color:", "Character Preference","#"+human_target.grad_color) as color|null
-	if(!new_grad_color)
-		return
 	if(!user.canUseTopic(src, BE_CLOSE))
 		return
 	if(new_style && new_style != hairstyle)
@@ -66,10 +58,6 @@
 		user.visible_message(span_notice("[user] changes \the [src]'s hairstyle to [new_style]."), span_notice("You change \the [src]'s hairstyle to [new_style]."))
 	if(newcolor && newcolor != color) // only update if necessary
 		add_atom_colour(newcolor, FIXED_COLOUR_PRIORITY)
-	if(new_grad_style && new_grad_style != gradstyle)
-		grad_style = new_grad_style
-	if(new_grad_color && new_grad_color != gradcolor)
-		grad_color = new_grad_color
 	update_appearance()
 
 /obj/item/clothing/head/wig/afterattack(mob/living/carbon/human/target, mob/user)
