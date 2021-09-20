@@ -53,7 +53,8 @@
 //Along with damage_penalty_point, makes flux anomalies.
 /// The cutoff for the minimum amount of power required to trigger the crystal invasion delamination event.
 #define EVENT_POWER_PENALTY_THRESHOLD 4500
-#define POWER_PENALTY_THRESHOLD 5000          //The cutoff on power properly doing damage, pulling shit around, and delamming into a tesla. Low chance of pyro anomalies, +2 bolts of electricity
+#define POWER_PENALTY_THRESHOLD 5000          //The cutoff on power properly doing damage, and delamming into a tesla.+2 bolts of electricity
+#define POWER_ANOMALY_THRESHOLD 5500		  //The cutoff for anomalies to start occuring. High chance for flux, mild for grav grav, low for pyro
 #define SEVERE_POWER_PENALTY_THRESHOLD 7000   //+1 bolt of electricity, allows for gravitational anomalies, and higher chances of pyro anomalies
 #define CRITICAL_POWER_PENALTY_THRESHOLD 9000 //+1 bolt of electricity.
 #define HEAT_PENALTY_THRESHOLD 40             //Higher == Crystal safe operational temperature is higher.
