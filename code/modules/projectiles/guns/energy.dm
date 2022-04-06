@@ -130,6 +130,7 @@
 		update_appearance()
 
 /obj/item/gun/energy/attack_self(mob/living/user as mob)
+	. = ..()
 	if(ammo_type.len > 1 && can_select)
 		select_fire(user)
 
