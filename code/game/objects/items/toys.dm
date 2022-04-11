@@ -330,7 +330,7 @@
 	. = ..()
 	. += "There [bullets == 1 ? "is" : "are"] [bullets] cap\s left."
 
-obj/item/toy/gun/attack_self(mob/user)
+/obj/item/toy/gun/attack_self(mob/user)
 	if(HAS_TRAIT(user, TRAIT_GUNFLIP) && flip_cooldown <= world.time)
 		SpinAnimation(4,2)
 		flip_cooldown = (world.time + 30)

@@ -207,7 +207,7 @@
 		for(var/obj/O in contents)
 			O.emp_act(severity)
 
-obj/item/gun/attack_self(mob/living/user)
+/obj/item/gun/attack_self(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_GUNFLIP) && can_gunflip)
 		SpinAnimation(4,2)
 		if(flip_cooldown <= world.time)
