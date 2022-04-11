@@ -331,11 +331,13 @@
 	. += "There [bullets == 1 ? "is" : "are"] [bullets] cap\s left."
 
 /obj/item/toy/gun/attack_self(mob/user)
-	if(HAS_TRAIT(user, TRAIT_GUNFLIP) && flip_cooldown <= world.time)
+	if(HAS_TRAIT(user, TRAIT_GUNFLIP))
 		SpinAnimation(4,2)
-		flip_cooldown = (world.time + 30)
-		user.visible_message(span_notice("[user] spins [src] around [user.p_their()] finger by the trigger. That’s pretty badass."))
-		playsound(src, 'sound/items/handling/ammobox_pickup.ogg', 20, FALSE)
+		if(flip_cooldown <= world.time)
+			flip_cooldown = (world.time + 30)
+			user.visible_message(span_notice("[user] spins [src] around [user.p_their()] finger by the trigger. That’s pretty badass."))
+			playsound(src, 'sound/items/handling/ammobox_pickup.ogg', 20, FALSE)
+			return
 
 /obj/item/toy/gun/attackby(obj/item/toy/ammo/gun/A, mob/user, params)
 
