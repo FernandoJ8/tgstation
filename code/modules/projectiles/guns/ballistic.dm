@@ -443,7 +443,7 @@
 	return ..()
 
 /obj/item/gun/ballistic/attack_self(mob/living/user)
-	. = ..()
+	..()
 	if(bolt_type == BOLT_TYPE_NO_BOLT)
 		chambered = null
 		var/num_unloaded = 0
