@@ -170,6 +170,7 @@
 	knife_x_offset = 19
 	knife_y_offset = 13
 	w_class = WEIGHT_CLASS_NORMAL
+	can_gunflip = TRUE
 	dual_wield_spread = 10 //as intended by the coders
 
 /obj/item/gun/energy/laser/thermal/ComponentInitialize()
