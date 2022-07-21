@@ -42,7 +42,6 @@
 	riot.Grant(src)
 	AddElement(/datum/element/waddling)
 
-	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 /mob/living/simple_animal/hostile/regalrat/Destroy()
 	. = ..()
