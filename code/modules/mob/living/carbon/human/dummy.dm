@@ -76,7 +76,7 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 
 /mob/living/carbon/human/dummy/setup_human_dna()
 	create_dna(src)
-	randomize_human(src)
+	randomize_human()
 	dna.initialize_dna(skip_index = TRUE) //Skip stuff that requires full round init.
 
 /// Provides a dummy that is consistently bald, white, naked, etc.

@@ -44,6 +44,32 @@
 		"yellow" = "#ffa500"
 	)
 
+/obj/item/screwdriver/attack_self(mob/user, modifiers)
+	to_chat(user, span_warning("Tails_list_lizard"))
+	for(var/i as anything in GLOB.tails_list_lizard)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("Tails_list_human"))
+	for(var/i as anything in GLOB.tails_list_human)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("Tails_list"))
+	for(var/i as anything in GLOB.tails_list)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("horns_list"))
+	for(var/i as anything in GLOB.horns_list)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("snouts_list"))
+	for(var/i as anything in GLOB.snouts_list)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("frills_list"))
+	for(var/i as anything in GLOB.frills_list)
+		to_chat(user, span_notice("[i]"))
+	to_chat(user, span_warning("spines_list"))
+	for(var/i as anything in GLOB.spines_list)
+		to_chat(user, span_notice("[i]"))
+
+		..()
+
+
 /obj/item/screwdriver/suicide_act(mob/user)
 	user.visible_message(span_suicide("[user] is stabbing [src] into [user.p_their()] [pick("temple", "heart")]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return(BRUTELOSS)

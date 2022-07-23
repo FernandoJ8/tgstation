@@ -90,6 +90,9 @@
 	QDEL_NULL(ethereal_light)
 	return ..()
 
+/datum/species/ethereal/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
+	human_mob.dna.features["ethcolor"] = pick(GLOB.color_list_ethereal)
+	..()
 
 /datum/species/ethereal/random_name(gender,unique,lastname)
 	if(unique)

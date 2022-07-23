@@ -71,7 +71,7 @@
 	var/hairstyle = pick(GLOB.pod_hair_list)
 	human_mob.dna.features["pod_hair"] = hairstyle
 	mutant_bodyparts["pod_hair"] = hairstyle
-	human_mob.update_body()
+	human_mob.update_body(is_creating = TRUE)
 
 /datum/species/pod/proc/change_hairstyle(mob/living/carbon/human/human_mob, new_style)
 	var/obj/item/organ/external/organ = human_mob.getorganslot(ORGAN_SLOT_EXTERNAL_POD_HAIR)

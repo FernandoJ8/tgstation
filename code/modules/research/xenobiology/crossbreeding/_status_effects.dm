@@ -809,7 +809,7 @@
 		originalDNA = new H.dna.type
 		originalname = H.real_name
 		H.dna.copy_dna(originalDNA)
-		randomize_human(H)
+		H.randomize_human()
 		H.dna.update_dna_identity()
 	return ..()
 

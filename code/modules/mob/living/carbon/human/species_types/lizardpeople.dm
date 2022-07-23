@@ -71,11 +71,26 @@
 
 	return randname
 
+/datum/species/lizard/proc/randomize_external_organ(mob/living/carbon/human/human_mob, slot, var/list/pool)
+	var/new_look = pick(pool)
+	var/obj/item/organ/external/element = human_mob.getorganslot(slot)
+	human_mob.dna.features["[element.feature_key]"] = new_look
+	mutant_bodyparts["[element.feature_key]"] = new_look
+
 /datum/species/lizard/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
-	var/tail = pick(GLOB.tails_list_lizard)
-	human_mob.dna.features["tail_lizard"] = tail
-	mutant_bodyparts["tail_lizard"] = tail
-	human_mob.update_body()
+	randomize_external_organ(human_mob, ORGAN_SLOT_EXTERNAL_TAIL, GLOB.tails_list_lizard)
+	randomize_external_organ(human_mob, ORGAN_SLOT_EXTERNAL_SNOUT, GLOB.snouts_list)
+	randomize_external_organ(human_mob, ORGAN_SLOT_EXTERNAL_HORNS, GLOB.horns_list)
+	randomize_external_organ(human_mob, ORGAN_SLOT_EXTERNAL_FRILLS, GLOB.frills_list)
+	randomize_external_organ(human_mob, ORGAN_SLOT_EXTERNAL_SPINES, GLOB.spines_list)
+
+/datum/species/lizard/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
+
+	human_mob.dna.features["mcolor"] = "#[random_color()]"
+
+	var/markings = pick(GLOB.body_markings_list)
+	human_mob.dna.features["body_markings"] = markings
+	mutant_bodyparts["body_markings"] = markings
 
 /datum/species/lizard/get_scream_sound(mob/living/carbon/human/lizard)
 	return pick(

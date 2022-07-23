@@ -31,10 +31,25 @@
 	AddElement(/datum/element/connect_loc, loc_connections)
 	GLOB.human_list += src
 
+/mob/living/carbon/human/proc/randomize_human()
+	if(dna.species.sexes)
+		gender = pick(MALE, FEMALE)
+	physique = gender
+	real_name = dna.species.random_name(gender)
+	name = real_name
+	dna.species.randomize_active_underwear(src)
+	dna.species.randomize_appearance(src)
+	dna.blood_type = random_blood_type()
+
+	updateappearance(icon_update=1, mutcolor_update=1, mutations_overlay_update=1)
+	update_body(is_creating = TRUE)
+	update_hair(is_creating = TRUE)
+	dna.species.spec_updatehealth(src)
+
 /mob/living/carbon/human/proc/setup_human_dna()
 	//initialize dna. for spawned humans; overwritten by other code
 	create_dna(src)
-	randomize_human(src)
+	randomize_human()
 	dna.initialize_dna()
 
 /mob/living/carbon/human/ComponentInitialize()

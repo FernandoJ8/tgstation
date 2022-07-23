@@ -32,7 +32,6 @@
 			L = L.wabbajack("animal")
 		if("Appearance")
 			var/mob/living/carbon/human/H = L.wabbajack("humanoid")
-			randomize_human(H)
 			var/list/all_species = list()
 			for(var/stype in subtypesof(/datum/species))
 				var/datum/species/S = stype
@@ -40,6 +39,7 @@
 					all_species += stype
 			var/random_race = pick(all_species)
 			H.set_species(random_race)
+			H.randomize_human()
 			H.dna.update_dna_identity()
 			L = H
 	var/turf/T = find_safe_turf(extended_safety_checks = TRUE, dense_atoms = FALSE)

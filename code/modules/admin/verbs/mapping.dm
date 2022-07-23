@@ -306,7 +306,7 @@ GLOBAL_VAR_INIT(say_disabled, FALSE)
 			else
 				for(var/obj/item/I in D)
 					qdel(I)
-				randomize_human(D)
+				D.randomize_human()
 				D.dress_up_as_job(JB, TRUE)
 				COMPILE_OVERLAYS(D)
 				var/icon/I = icon(getFlatIcon(D), frame = 1)

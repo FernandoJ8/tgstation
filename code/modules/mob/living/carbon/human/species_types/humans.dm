@@ -16,6 +16,10 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 1
 
+/datum/species/human/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
+	human_mob.hair_color = "#[random_color()]"
+	..()
+
 /datum/species/human/prepare_human_for_preview(mob/living/carbon/human/human)
 	human.hairstyle = "Business Hair"
 	human.hair_color = "#bb9966" // brown

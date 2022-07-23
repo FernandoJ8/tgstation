@@ -20,6 +20,18 @@
 	family_heirlooms = list(/obj/item/toy/cattoy)
 	examine_limb_id = SPECIES_HUMAN
 
+/datum/species/human/felinid/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
+	var/tail = pick(GLOB.tails_list_human)
+	human_mob.dna.features["tail_cat"] = tail
+	mutant_bodyparts["tail_cat"] = tail
+	..()
+
+/datum/species/felinid/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
+	var/ears = pick(GLOB.ears_list)
+	human_mob.dna.features["ears"] = ears
+	mutant_bodyparts["tail_cat"] = ears
+	..()
+
 // Prevents felinids from taking toxin damage from carpotoxin
 /datum/species/human/felinid/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H, delta_time, times_fired)
 	. = ..()
