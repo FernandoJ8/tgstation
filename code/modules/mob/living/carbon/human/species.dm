@@ -786,20 +786,20 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	else
 		human_mob.eye_color_right = new_eye_colour
 		human_mob.eye_color_heterochromatic = FALSE
-	human_mob.update_body(is_creating = TRUE)
+	human_mob.update_body()
 
 ///Proc that will randomise the hair, or primary appearance element (i.e. for moths wings) of a species' associated mob
 /datum/species/proc/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
 	human_mob.hairstyle = random_hairstyle(human_mob.gender)
-	human_mob.update_hair(is_creating = TRUE)
+	human_mob.update_hair()
 
 ///Proc that will randomise every appearance element not included by randomize_main_appearance_element (i.e. skin tone and facial hair for humans, body markings, mutant colour etc.) of a species' associated mob
 /datum/species/proc/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
 	human_mob.facial_hairstyle = random_facial_hairstyle(human_mob.gender)
 	human_mob.facial_hairstyle = human_mob.hair_color
-	human_mob.update_hair(is_creating = TRUE)
 	human_mob.skin_tone = random_skin_tone()
-	human_mob.update_body(is_creating = TRUE)
+	human_mob.update_hair()
+	human_mob.update_body()
 
 /datum/species/proc/randomize_appearance(mob/living/carbon/human/human_mob)
 	randomize_eye_colour(human_mob)

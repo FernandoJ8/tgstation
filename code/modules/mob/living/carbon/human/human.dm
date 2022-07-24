@@ -41,7 +41,6 @@
 	dna.species.randomize_appearance(src)
 	dna.blood_type = random_blood_type()
 
-	updateappearance(icon_update=1, mutcolor_update=1, mutations_overlay_update=1)
 	update_body(is_creating = TRUE)
 	update_hair(is_creating = TRUE)
 	dna.species.spec_updatehealth(src)
