@@ -79,5 +79,5 @@
 	human_mob.gender = pick(MALE, FEMALE)
 	human_mob.physique = human_mob.gender
 	human_mob.dna.features["mcolor"] = "#59CE00"
-	randomize_eye_colour()
-	randomize_main_appearance_element()
+	randomize_eye_colour(human_mob)
+	randomize_main_appearance_element(human_mob)
