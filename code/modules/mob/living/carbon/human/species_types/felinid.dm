@@ -26,12 +26,6 @@
 	mutant_bodyparts["tail_cat"] = tail
 	..()
 
-/datum/species/felinid/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
-	var/ears = pick(GLOB.ears_list)
-	human_mob.dna.features["ears"] = ears
-	mutant_bodyparts["tail_cat"] = ears
-	..()
-
 // Prevents felinids from taking toxin damage from carpotoxin
 /datum/species/human/felinid/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H, delta_time, times_fired)
 	. = ..()

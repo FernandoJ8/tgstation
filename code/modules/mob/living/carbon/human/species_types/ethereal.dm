@@ -91,7 +91,7 @@
 	return ..()
 
 /datum/species/ethereal/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
-	human_mob.dna.features["ethcolor"] = pick(GLOB.color_list_ethereal)
+	human_mob.dna.features["ethcolor"] = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]
 	..()
 
 /datum/species/ethereal/random_name(gender,unique,lastname)

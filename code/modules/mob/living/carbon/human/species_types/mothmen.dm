@@ -66,6 +66,9 @@
 		return 10 //flyswatters deal 10x damage to moths
 	return 1
 
+/datum/species/moth/randomize_eye_colour(mob/living/carbon/human/human_mob, heterochromatic)
+	return
+
 /datum/species/moth/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
 	var/wings = pick(GLOB.moth_wings_list)
 	mutant_bodyparts["wings"] = wings
@@ -74,14 +77,11 @@
 	human_mob.dna.features["moth_wings"] = wings
 	human_mob.update_body(is_creating = TRUE)
 
-/datum/species/moth/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
-	var/antennae = pick(GLOB.moth_antennae_list)
-	human_mob.dna.features["moth_antennae"] = antennae
-	mutant_bodyparts["moth_antennae"] = antennae
+/datum/species/moth/randomize_appearance(mob/living/carbon/human/human_mob, randomize_sex = FALSE)
 	var/markings = pick(GLOB.moth_markings_list)
 	human_mob.dna.features["moth_markings"] = markings
 	mutant_bodyparts["moth_markings"] = markings
-	human_mob.update_body(is_creating = TRUE)
+	..()
 
 /datum/species/moth/get_scream_sound(mob/living/carbon/human/human)
 	return 'sound/voice/moth/scream_moth.ogg'

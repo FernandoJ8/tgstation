@@ -68,12 +68,16 @@
 		return TRUE
 
 /datum/species/pod/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
-	var/hairstyle = pick(GLOB.pod_hair_list)
-	human_mob.dna.features["pod_hair"] = hairstyle
-	mutant_bodyparts["pod_hair"] = hairstyle
-	human_mob.update_body(is_creating = TRUE)
+	randomize_external_organ(human_mob, /obj/item/organ/external/pod_hair)
 
 /datum/species/pod/proc/change_hairstyle(mob/living/carbon/human/human_mob, new_style)
 	var/obj/item/organ/external/organ = human_mob.getorganslot(ORGAN_SLOT_EXTERNAL_POD_HAIR)
 	organ.set_sprite(new_style)
 	human_mob.update_body_parts()
+
+/datum/species/pod/randomize_appearance(mob/living/carbon/human/human_mob, randomize_sex = FALSE)
+	human_mob.gender = pick(MALE, FEMALE)
+	human_mob.physique = human_mob.gender
+	human_mob.dna.features["mcolor"] = "#59CE00"
+	randomize_eye_colour()
+	randomize_main_appearance_element()

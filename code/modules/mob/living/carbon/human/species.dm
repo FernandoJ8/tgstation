@@ -788,23 +788,34 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		human_mob.eye_color_heterochromatic = FALSE
 	human_mob.update_body()
 
-///Proc that will randomise the hair, or primary appearance element (i.e. for moths wings) of a species' associated mob
+///Proc that will randomise the hair and facial hair, or primary appearance element (i.e. for moths wings) of a species' associated mob
 /datum/species/proc/randomize_main_appearance_element(mob/living/carbon/human/human_mob)
-	human_mob.hairstyle = random_hairstyle(human_mob.gender)
+	if(HAIR in species_traits)
+		human_mob.hairstyle = random_hairstyle(human_mob.gender)
+	if(FACEHAIR in species_traits)
+		human_mob.facial_hairstyle = random_facial_hairstyle(human_mob.gender)
 	human_mob.update_hair()
 
-///Proc that will randomise every appearance element not included by randomize_main_appearance_element (i.e. skin tone and facial hair for humans, body markings, mutant colour etc.) of a species' associated mob
-/datum/species/proc/randomize_secondary_appearance_elements(mob/living/carbon/human/human_mob)
-	human_mob.facial_hairstyle = random_facial_hairstyle(human_mob.gender)
-	human_mob.facial_hairstyle = human_mob.hair_color
-	human_mob.skin_tone = random_skin_tone()
-	human_mob.update_hair()
-	human_mob.update_body()
+///Proc that will randomise any given external organ (i.e. horns, frills, wings etc.) of a species' associated mob
+/datum/species/proc/randomize_external_organ(mob/living/carbon/human/human_mob, obj/item/organ/external/organ)
+		var/new_look = pick(organ.get_global_feature_list())
+		human_mob.dna.features["[organ.feature_key]"] = new_look
+		mutant_bodyparts["[organ.feature_key]"] = new_look
+		organ.set_sprite(new_look)
+		human_mob.update_body()
 
-/datum/species/proc/randomize_appearance(mob/living/carbon/human/human_mob)
-	randomize_eye_colour(human_mob)
+///Proc that will randomise all (biological) visual elements (i.e. external organs, eyes, hair, colour etc. but *not* clothes) of a species' associated mob
+/datum/species/proc/randomize_appearance(mob/living/carbon/human/human_mob, randomize_sex = FALSE)
+	if(randomize_sex && sexes)
+		human_mob.gender = pick(MALE, FEMALE)
+		human_mob.physique = human_mob.gender
+	if(MUTCOLORS in species_traits)
+		human_mob.dna.features["mcolor"] = "#[random_color()]"
+	for(var/obj/item/organ/external/extorgan as anything in human_mob.external_organs)
+		randomize_external_organ(human_mob, extorgan)
+	if(EYECOLOR in species_traits)
+		randomize_eye_colour(human_mob)
 	randomize_main_appearance_element(human_mob)
-	randomize_secondary_appearance_elements(human_mob)
 
 ///Proc that will randomise the underwear (i.e. top, pants and socks) of a species' associated mob
 /datum/species/proc/randomize_active_underwear(mob/living/carbon/human/human_mob)

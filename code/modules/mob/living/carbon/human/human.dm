@@ -32,14 +32,11 @@
 	GLOB.human_list += src
 
 /mob/living/carbon/human/proc/randomize_human()
-	if(dna.species.sexes)
-		gender = pick(MALE, FEMALE)
-	physique = gender
+	dna.species.randomize_appearance(src, randomize_sex = TRUE)
+	dna.species.randomize_active_underwear(src)
+	dna.blood_type = random_blood_type()
 	real_name = dna.species.random_name(gender)
 	name = real_name
-	dna.species.randomize_active_underwear(src)
-	dna.species.randomize_appearance(src)
-	dna.blood_type = random_blood_type()
 
 	update_body(is_creating = TRUE)
 	update_hair(is_creating = TRUE)
