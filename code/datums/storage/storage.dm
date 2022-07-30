@@ -555,6 +555,8 @@ GLOBAL_LIST_EMPTY(cached_storage_typecaches)
 		if(thing.loc != resolve_location)
 			continue
 		attempt_remove(thing, target, silent = TRUE)
+		thing.pixel_x = thing.base_pixel_x + rand(-8, 8)
+		thing.pixel_y = thing.base_pixel_y + rand(-8, 8)
 
 /**
  * Removes only a specific type of item from our storage
