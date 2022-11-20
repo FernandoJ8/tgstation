@@ -3,13 +3,12 @@
 	element_flags = ELEMENT_BESPOKE
 	id_arg_index = 2
 	///The type of atom this creates when the processing recipe is used.
-	var/atom/result_atom_type
+	var/list/resulting_atoms
 	///The tool behaviour for this processing recipe
 	var/tool_behaviour
 	///Time to process the atom
 	var/time_to_process
-	///Amount of the resulting actor this will create
-	var/amount_created
+
 	///Whether or not the atom being processed has to be on a table or tray to process it
 	var/table_required
 

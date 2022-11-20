@@ -162,7 +162,7 @@
 	foodtypes = GRAIN | FRUIT
 
 /obj/item/food/bread/banana/MakeProcessable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/breadslice/banana, 5, 3 SECONDS, table_required = TRUE)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/breadslice/banana, 5), 3 SECONDS, table_required = TRUE)
 
 /obj/item/food/breadslice/banana
 	name = "banana-nut bread slice"
