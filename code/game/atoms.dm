@@ -335,7 +335,10 @@
 
 	orbiters = null // The component is attached to us normaly and will be deleted elsewhere
 
-	LAZYCLEARLIST(overlays)
+	// Checking length(overlays) before cutting has significant speed benefits
+	if (length(overlays))
+		overlays.Cut()
+
 	LAZYNULL(managed_overlays)
 
 	QDEL_NULL(light)
@@ -912,7 +915,7 @@
 /atom/proc/hitby(atom/movable/hitting_atom, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	SEND_SIGNAL(src, COMSIG_ATOM_HITBY, hitting_atom, skipcatch, hitpush, blocked, throwingdatum)
 	if(density && !has_gravity(hitting_atom)) //thrown stuff bounces off dense stuff in no grav, unless the thrown stuff ends up inside what it hit(embedding, bola, etc...).
-		addtimer(CALLBACK(src, .proc/hitby_react, hitting_atom), 2)
+		addtimer(CALLBACK(src, PROC_REF(hitby_react), hitting_atom), 2)
 
 /**
  * We have have actually hit the passed in atom
@@ -1285,7 +1288,7 @@
 						if(!valid_id)
 							to_chat(usr, span_warning("A reagent with that ID doesn't exist!"))
 				if("Choose from a list")
-					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in sort_list(subtypesof(/datum/reagent), /proc/cmp_typepaths_asc)
+					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in sort_list(subtypesof(/datum/reagent), GLOBAL_PROC_REF(cmp_typepaths_asc))
 				if("I'm feeling lucky")
 					chosen_id = pick(subtypesof(/datum/reagent))
 			if(chosen_id)
@@ -1473,10 +1476,27 @@
 	var/list/choices = list()
 
 	for(var/list/current_option as anything in possible_options)
-		var/atom/current_option_type = current_option[TOOL_PROCESSING_RESULT]
-		choices_to_options[initial(current_option_type.name)] = current_option
-		var/image/option_image = image(icon = initial(current_option_type.icon), icon_state = initial(current_option_type.icon_state))
-		choices += list("[initial(current_option_type.name)]" = option_image)
+		var/list/atoms_to_create = current_option[TOOL_PROCESSING_RESULTS]
+		if(atoms_to_create.len == 1)
+			var/atom/current_option_type = atoms_to_create[1]
+			choices_to_options[initial(current_option_type.name)] = current_option
+			var/image/option_image = image(icon = initial(current_option_type.icon), icon_state = initial(current_option_type.icon_state))
+			choices += list("[initial(current_option_type.name)]" = option_image)
+			choices_to_options[initial(current_option_type.name)] = current_option
+		else
+			var/i = 1
+			var/icon/preview_icon = icon()
+			var/name_list = list()
+			for(var/path in atoms_to_create)
+				var/atom/current_option_type = path
+				preview_icon.Insert(initial(current_option_type.icon), initial(current_option_type.icon_state), frame = i, delay = 10)
+				i++
+				name_list += initial(current_option_type.name)
+			var/image/option_image = image(icon = preview_icon)
+			var/result_text = english_list(name_list)
+			choices += list("[result_text]" = option_image)
+			choices_to_options[result_text] = current_option
+
 
 	var/pick = show_radial_menu(user, src, choices, radius = 36, require_near = TRUE)
 	if(!pick)
@@ -1489,21 +1509,26 @@
 	var/processing_time = chosen_option[TOOL_PROCESSING_TIME]
 	to_chat(user, span_notice("You start working on [src]."))
 	if(process_item.use_tool(src, user, processing_time, volume=50))
-		var/atom/atom_to_create = chosen_option[TOOL_PROCESSING_RESULT]
+		var/list/atoms_to_create = chosen_option[TOOL_PROCESSING_RESULTS]
 		var/list/atom/created_atoms = list()
-		for(var/i = 1 to chosen_option[TOOL_PROCESSING_AMOUNT])
-			var/atom/created_atom = new atom_to_create(drop_location())
-			if(custom_materials)
-				created_atom.set_custom_materials(custom_materials, 1 / chosen_option[TOOL_PROCESSING_AMOUNT])
-			created_atom.pixel_x = pixel_x
-			created_atom.pixel_y = pixel_y
-			if(i > 1)
-				created_atom.pixel_x += rand(-8,8)
-				created_atom.pixel_y += rand(-8,8)
-			SEND_SIGNAL(created_atom, COMSIG_ATOM_CREATEDBY_PROCESSING, src, chosen_option)
-			created_atom.OnCreatedFromProcessing(user, process_item, chosen_option, src)
-			to_chat(user, span_notice("You manage to create [chosen_option[TOOL_PROCESSING_AMOUNT]] [initial(atom_to_create.gender) == PLURAL ? "[initial(atom_to_create.name)]" : "[initial(atom_to_create.name)]\s"] from [src]."))
-			created_atoms.Add(created_atom)
+		var/list/result_text = list()
+		for(var/path in atoms_to_create)
+			var/atom/atom_result = path
+			var/processing_amount = atoms_to_create[atom_result]
+			for(var/i = 1 to processing_amount)
+				var/atom/created_atom = new atom_result(drop_location())
+				if(custom_materials)
+					created_atom.set_custom_materials(custom_materials, 1 / processing_amount)
+				created_atom.pixel_x = pixel_x
+				created_atom.pixel_y = pixel_y
+				if(i > 1)
+					created_atom.pixel_x += rand(-8,8)
+					created_atom.pixel_y += rand(-8,8)
+				SEND_SIGNAL(created_atom, COMSIG_ATOM_CREATEDBY_PROCESSING, src, atoms_to_create)
+				created_atom.OnCreatedFromProcessing(user, process_item, chosen_option, src)
+				created_atoms.Add(created_atom)
+			result_text.Add("[processing_amount] [initial(atom_result.gender) == PLURAL ? "[initial(atom_result.name)]" : "[initial(atom_result.name)]\s"]")
+			to_chat(user, span_notice("You manage to create [english_list(result_text)] from [src]."))
 		SEND_SIGNAL(src, COMSIG_ATOM_PROCESSED, user, process_item, created_atoms)
 		UsedforProcessing(user, process_item, chosen_option)
 		return
@@ -1512,8 +1537,11 @@
 	qdel(src)
 	return
 
-/atom/proc/OnCreatedFromProcessing(mob/living/user, obj/item/food, list/chosen_option, atom/original_atom)
-	return
+/atom/proc/OnCreatedFromProcessing(mob/living/user, obj/item/work_tool, list/chosen_option, atom/original_atom)
+	SHOULD_CALL_PARENT(TRUE)
+
+	SEND_SIGNAL(src, COMSIG_ATOM_CREATEDBY_PROCESSING, original_atom, chosen_option)
+	ADD_TRAIT(src, TRAIT_FOOD_CHEF_MADE, REF(user))
 
 //! Tool-specific behavior procs.
 ///
@@ -1595,7 +1623,7 @@
 
 /atom/proc/update_filters()
 	filters = null
-	filter_data = sortTim(filter_data, /proc/cmp_filter_data_priority, TRUE)
+	filter_data = sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
 	for(var/f in filter_data)
 		var/list/data = filter_data[f]
 		var/list/arguments = data.Copy()
