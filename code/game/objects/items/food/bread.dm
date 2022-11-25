@@ -38,7 +38,8 @@
 	AddComponent(/datum/component/customizable_reagent_holder, /obj/item/food/bread/empty, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 8)
 
 /obj/item/food/bread/plain/MakeProcessable()
-	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/breadslice/plain, 5, 3 SECONDS, table_required = TRUE)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/breadslice/plain = 5, /obj/item/food/bread/meat = 2), 3 SECONDS, table_required = TRUE)
+	AddElement(/datum/element/processable, TOOL_KNIFE, list(/obj/item/food/breadslice/moldy = 5), 3 SECONDS, table_required = TRUE)
 
 // special subtype we use for the "Bread" Admin Smite (or the breadify proc)
 /obj/item/food/bread/plain/smite

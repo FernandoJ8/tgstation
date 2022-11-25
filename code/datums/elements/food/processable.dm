@@ -2,8 +2,8 @@
 /datum/element/processable
 	element_flags = ELEMENT_BESPOKE
 	argument_hash_start_idx = 2
-	///The type of atom this creates when the processing recipe is used.
-	var/atom/result_atom_type
+	///Associative list of the typepaths of each atom and the amount of it we're creating
+	var/list/resulting_atoms
 	///The tool behaviour for this processing recipe
 	var/tool_behaviour
 	///Time to process the atom
@@ -13,15 +13,14 @@
 	///Whether or not the atom being processed has to be on a table or tray to process it
 	var/table_required
 
-/datum/element/processable/Attach(datum/target, tool_behaviour, result_atom_type, amount_created = 3, time_to_process = 2 SECONDS, table_required = FALSE)
+/datum/element/processable/Attach(datum/target, tool_behaviour, resulting_atoms, time_to_process = 2 SECONDS, table_required = FALSE)
 	. = ..()
 	if(!isatom(target))
 		return ELEMENT_INCOMPATIBLE
 
+	src.resulting_atoms = resulting_atoms
 	src.tool_behaviour = tool_behaviour
-	src.amount_created = amount_created
 	src.time_to_process = time_to_process
-	src.result_atom_type = result_atom_type
 	src.table_required = table_required
 
 	RegisterSignal(target, COMSIG_ATOM_TOOL_ACT(tool_behaviour), PROC_REF(try_process))
@@ -41,16 +40,14 @@
 		var/found_table = locate(/obj/structure/table) in found_location
 		var/found_tray = locate(/obj/item/storage/bag/tray) in found_location
 		if(!found_turf && !istype(found_location, /obj/item/storage/bag/tray) || found_turf && !(found_table || found_tray))
-			to_chat(user, span_notice("You cannot make [initial(result_atom_type.name)] here! You need a table or at least a tray."))
+			to_chat(user, span_notice("You cannot process [source] here! You need a table or at least a tray."))
 			return
-
-	mutable_recipes += list(list(TOOL_PROCESSING_RESULT = result_atom_type, TOOL_PROCESSING_AMOUNT = amount_created, TOOL_PROCESSING_TIME = time_to_process))
+	mutable_recipes += list(list(TOOL_PROCESSING_RESULTS = resulting_atoms, TOOL_PROCESSING_TIME = time_to_process))
 
 ///So people know what the frick they're doing without reading from a wiki page (I mean they will inevitably but i'm trying to help, ok?)
 /datum/element/processable/proc/OnExamine(atom/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
-
-	if(amount_created > 1)
-		examine_list += span_notice("It can be turned into [amount_created] [initial(result_atom_type.name)]s with <b>[tool_behaviour_name(tool_behaviour)]</b>!")
-	else
-		examine_list += span_notice("It can be turned into \a [initial(result_atom_type.name)] with <b>[tool_behaviour_name(tool_behaviour)]</b>!")
+	var/list/name_list
+	for(var/atom/i in resulting_atoms)
+		name_list += "[resulting_atoms[i]] [i.name]"
+	examine_list += span_notice("It can be turned into [english_list(name_list)] with <b>[tool_behaviour_name(tool_behaviour)]</b>!")
