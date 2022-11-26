@@ -249,7 +249,7 @@ Behavior that's still missing from this component that original food items had t
 	return COMSIG_FRYING_HANDLED
 
 ///Called when food is created through processing (Usually this means it was sliced). We use this to pass the OG items reagents.
-/datum/component/edible/proc/OnProcessed(datum/source, atom/original_atom, list/chosen_processing_option)
+/datum/component/edible/proc/OnProcessed(datum/source, atom/original_atom, list/chosen_option, total_amount)
 	SIGNAL_HANDLER
 
 	if(!original_atom.reagents)
@@ -258,10 +258,10 @@ Behavior that's still missing from this component that original food items had t
 	var/atom/this_food = parent
 
 	//Make sure we have a reagent container large enough to fit the original atom's reagents.
-	volume = max(volume, ROUND_UP(original_atom.reagents.maximum_volume / chosen_processing_option[this_food]))
+	volume = max(volume, ROUND_UP(original_atom.reagents.maximum_volume / total_amount))
 
 	this_food.create_reagents(volume)
-	original_atom.reagents.copy_to(this_food, original_atom.reagents.total_volume / chosen_processing_option[this_food], 1)
+	original_atom.reagents.copy_to(this_food, original_atom.reagents.total_volume / total_amount, 1)
 
 	if(original_atom.name != initial(original_atom.name))
 		this_food.name = "slice of [original_atom.name]"

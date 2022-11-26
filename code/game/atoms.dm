@@ -1489,7 +1489,8 @@
 			var/name_list = list()
 			for(var/path in atoms_to_create)
 				var/atom/current_option_type = path
-				preview_icon.Insert(initial(current_option_type.icon), initial(current_option_type.icon_state), frame = i, delay = 10)
+				var/icon/temp_icon = new(initial(current_option_type.icon), icon_state = initial(current_option_type.icon_state))
+				preview_icon.Insert(temp_icon, frame = i, delay = 10)
 				i++
 				name_list += initial(current_option_type.name)
 			var/image/option_image = image(icon = preview_icon)
@@ -1510,6 +1511,7 @@
 	to_chat(user, span_notice("You start working on [src]."))
 	if(process_item.use_tool(src, user, processing_time, volume=50))
 		var/list/atoms_to_create = chosen_option[TOOL_PROCESSING_RESULTS]
+		var/total_amount = assoc_value_sum(atoms_to_create)
 		var/list/atom/created_atoms = list()
 		var/list/result_text = list()
 		for(var/path in atoms_to_create)
@@ -1518,17 +1520,16 @@
 			for(var/i = 1 to processing_amount)
 				var/atom/created_atom = new atom_result(drop_location())
 				if(custom_materials)
-					created_atom.set_custom_materials(custom_materials, 1 / processing_amount)
+					created_atom.set_custom_materials(custom_materials, 1 / total_amount)
 				created_atom.pixel_x = pixel_x
 				created_atom.pixel_y = pixel_y
 				if(i > 1)
 					created_atom.pixel_x += rand(-8,8)
 					created_atom.pixel_y += rand(-8,8)
-				SEND_SIGNAL(created_atom, COMSIG_ATOM_CREATEDBY_PROCESSING, src, atoms_to_create)
-				created_atom.OnCreatedFromProcessing(user, process_item, chosen_option, src)
+				created_atom.OnCreatedFromProcessing(user, process_item, chosen_option, src, total_amount)
 				created_atoms.Add(created_atom)
 			result_text.Add("[processing_amount] [initial(atom_result.gender) == PLURAL ? "[initial(atom_result.name)]" : "[initial(atom_result.name)]\s"]")
-			to_chat(user, span_notice("You manage to create [english_list(result_text)] from [src]."))
+		to_chat(user, span_notice("You manage to create [english_list(result_text)] from [src]."))
 		SEND_SIGNAL(src, COMSIG_ATOM_PROCESSED, user, process_item, created_atoms)
 		UsedforProcessing(user, process_item, chosen_option)
 		return
@@ -1537,10 +1538,10 @@
 	qdel(src)
 	return
 
-/atom/proc/OnCreatedFromProcessing(mob/living/user, obj/item/work_tool, list/chosen_option, atom/original_atom)
+/atom/proc/OnCreatedFromProcessing(mob/living/user, obj/item/work_tool, list/chosen_option, atom/original_atom, total_amount)
 	SHOULD_CALL_PARENT(TRUE)
 
-	SEND_SIGNAL(src, COMSIG_ATOM_CREATEDBY_PROCESSING, original_atom, chosen_option)
+	SEND_SIGNAL(src, COMSIG_ATOM_CREATEDBY_PROCESSING, original_atom, chosen_option, total_amount)
 	ADD_TRAIT(src, TRAIT_FOOD_CHEF_MADE, REF(user))
 
 //! Tool-specific behavior procs.

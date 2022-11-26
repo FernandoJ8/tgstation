@@ -46,7 +46,8 @@
 ///So people know what the frick they're doing without reading from a wiki page (I mean they will inevitably but i'm trying to help, ok?)
 /datum/element/processable/proc/OnExamine(atom/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
-	var/list/name_list
-	for(var/atom/i in resulting_atoms)
-		name_list += "[resulting_atoms[i]] [i.name]"
+	var/list/name_list = list()
+	for(var/path in resulting_atoms)
+		var/atom/atom_result = path
+		name_list.Add("[resulting_atoms[path]] [initial(atom_result.gender) == PLURAL ? "[initial(atom_result.name)]" : "[initial(atom_result.name)]\s"]")
 	examine_list += span_notice("It can be turned into [english_list(name_list)] with <b>[tool_behaviour_name(tool_behaviour)]</b>!")
