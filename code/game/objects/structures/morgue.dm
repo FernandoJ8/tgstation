@@ -150,7 +150,9 @@ GLOBAL_LIST_EMPTY(bodycontainers) //Let them act as spawnpoints for revenants an
 	playsound(src, 'sound/items/deconstruct.ogg', 50, TRUE)
 	for(var/atom/movable/AM in connected.loc)
 		if(!AM.anchored || AM == connected)
-			if(isliving(AM))
+			if(ismob(AM))
+				if(!isliving(AM))
+					continue
 				var/mob/living/living_mob = AM
 				if(living_mob.incorporeal_move)
 					continue
